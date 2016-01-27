@@ -22,7 +22,6 @@ import de.hrw.swep.persistence.dto.FrageDTO;
  * Testklasse fuer den Voting-Service
  * 
  * @author Sandra Rebholz
- *
  */
 public class VotingServiceTest {
 
@@ -115,19 +114,17 @@ public class VotingServiceTest {
      * Prueft, ob ein Voting zu einer geschlossenen Frage die erwartete
      * Exception ausloest.
      */
-    @Test (expected = IllegalStateException.class)
+    @Test(expected = IllegalStateException.class)
     public void testAbstimmenBeiGeschlossenerFrage() {
         when(dsi.getFrageById(1)).thenReturn(tempo);
         when(dsi.getAntwortenById(1)).thenReturn(
-                Arrays.asList("test ab 16 Jahren",
-                        "test ab 17 Jahren",
-                        "test ab 18 Jahren",
-                        "test ab 20 Jahren"));
-        
+                Arrays.asList("test ab 16 Jahren", "test ab 17 Jahren",
+                        "test ab 18 Jahren", "test ab 20 Jahren"));
+
         when(dsi.getVotings(1)).thenReturn(Arrays.asList(0, 0, 0, 0));
-        
+
         votingService.abstimmen(1, 2);
-        
+
         verify(dsi, times(1)).updateFrage(tempo);
         verify(dsi, times(1)).updateStimmen(1, 2, 1);
     }
